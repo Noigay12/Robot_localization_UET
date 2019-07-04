@@ -37,9 +37,9 @@ map_frame: map
 odom0: /odom
 # Gán topic cho odom0.
 odom0_config: [true, true, false,
-               false, false, true,
-               true,  true, false,
-               false, false, true,
+               false, false, false,
+               false,  false, false,
+               false, false, f,
                false, false, false]
 # Thiết lập quyền sử dụng các tham số dữ liệu, cần dùng cái nào thì set true cái đó.
 odom0_queue_size: 1
@@ -84,22 +84,22 @@ odom0_nodelay: false
 # imu0_relative: false
 # imu0_remove_gravitational_acceleration: false
 
-use_control: true
-# Do thuật toán EKF và UKF cho ra vận tốc sai lệch dẫn đến Robot đi không đều. Nếu cần pub dữ liệu vận tốc vào robot, set thành true.
-stamped_control: false
-# Nếu dữ liệu vận tốc truyền vào geometry_msgs/Twist hoặc geometry_msgs/TwistStamped, set thành false.
-control_timeout: 0.2
-# Thời gian delay cho control
-control_config: [true, false, false, false, false, true]
-# Cần sử dụng dữ liệu nào, set true dữ liệu đó. Theo thứ tự: vx, vy, vz, vroll, vpitch, vyaw
-acceleration_limits: [1.3, 0.0, 0.0, 0.0, 0.0, 3.4]
-# Giới hạn gia tốc, set cho phù hợp với động cơ Robot
-deceleration_limits: [1.3, 0.0, 0.0, 0.0, 0.0, 4.5]
-# Giới hạn giảm tốc, set cho phù hợp với động cơ Robot
-acceleration_gains: [0.8, 0.0, 0.0, 0.0, 0.0, 0.9]
-# Nếu robot không thể ngay lập tức đạt đến giới hạn tăng tốc set ở trên, đặt gia tốc giới hạn để gia tốc Robot tăng dần đều.
-deceleration_gains: [1.0, 0.0, 0.0, 0.0, 0.0, 1.0]
-# Nếu robot không thể ngay lập tức đạt đến giới hạn giảm tốc set ở trên, đặt gia tốc giới hạn để gia tốc Robot giảm dần đều.
+# use_control: true
+# # Do thuật toán EKF và UKF cho ra vận tốc sai lệch dẫn đến Robot đi không đều. Nếu cần pub dữ liệu vận tốc vào robot, set thành true.
+# stamped_control: false
+# # Nếu dữ liệu vận tốc truyền vào geometry_msgs/Twist hoặc geometry_msgs/TwistStamped, set thành false.
+# control_timeout: 0.2
+# # Thời gian delay cho control
+# control_config: [true, false, false, false, false, true]
+# # Cần sử dụng dữ liệu nào, set true dữ liệu đó. Theo thứ tự: vx, vy, vz, vroll, vpitch, vyaw
+# acceleration_limits: [1.3, 0.0, 0.0, 0.0, 0.0, 3.4]
+# # Giới hạn gia tốc, set cho phù hợp với động cơ Robot
+# deceleration_limits: [1.3, 0.0, 0.0, 0.0, 0.0, 4.5]
+# # Giới hạn giảm tốc, set cho phù hợp với động cơ Robot
+# acceleration_gains: [0.8, 0.0, 0.0, 0.0, 0.0, 0.9]
+# # Nếu robot không thể ngay lập tức đạt đến giới hạn tăng tốc set ở trên, đặt gia tốc giới hạn để gia tốc Robot tăng dần đều.
+# deceleration_gains: [1.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+# # Nếu robot không thể ngay lập tức đạt đến giới hạn giảm tốc set ở trên, đặt gia tốc giới hạn để gia tốc Robot giảm dần đều.
 
 process_noise_covariance: [0.05, 0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
                            0,    0.05, 0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
