@@ -1,4 +1,0 @@
-<launch>
-    <node pkg="turtlebot3_localization" type="reset.py" name="reset"></node>
-    <node pkg="turtlebot3_localization" type="pub_cmd_vel.py" name="pub_cmd"></node>
-</launch>
