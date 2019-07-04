@@ -1,0 +1,149 @@
+# Configuation For Robot Odometry UKF:
+frequency: 30
+# Thiết lập tần số, đơn vị Hz, số lần thực hiện Filter.
+two_d_mode: true
+# Cho biết Robot có hoạt động trong môi trường 2D hay không. Nếu được đặt thành true, tất cả các biến 3D sẽ được đặt thành 0. 
+publish_tf: true
+# Nếu được đặt thành true, dữ liệu sẽ được đưa vào cả /tf. Mặc định là true.
+sensor_timeout: 0.0
+# Thời gian delay cho cảm biến, tính bằng giây.
+transform_time_offset: 0.0
+# Thiết lập thời gian cố định cho mỗi lần tranform dữ liệu.
+transform_timeout: 0.0
+# Thiết lập thời gian delay cho mỗi lần tranform dữ liệu.
+debug: false
+# Set thành true nếu muốn debug.
+debug_out_file: /path/to/debug/file.txt
+# Đường dẫn file debug.
+print_diagnostics: true
+# Để true nếu dữ liệu có vấn đề, echo topic /diagnostics_agg để xem node có gặp vấn đề với dữ liệu hay không?
+publish_acceleration: false
+# Xuất dữ liệu gia tốc.
+
+# The Frames Section:
+odom_frame: odom
+# Frame được sử dụng để ghi lại Odometry. Set: odom.
+base_link_frame: base_link
+# Frame trong chính con Robot, bất kỳ cảm biến nào cũng có thể tham chiếu, thường được đặt ở trung tâm của Robot và gắn liền với Robot khi chuyển động.
+# Ở đây chúng ta set: base_link.
+world_frame: odom
+# Đây là khung tham chiếu để odom_frame và map_frame sử dụng để lấy tọa độ tuyệt đối của robot trong môi trường. Set: odom.
+map_frame: map
+# Đây là frame được sử dụng để ghi lại vị trí trong môi trường từ một hệ thống có sẵn cho biết Robot đang ở đâu. Set: map.
+
+# The odom0 Configuration:
+odom0: /odom
+# Gán topic cho odom0.
+odom0_config: [true,  true,  false,
+               false, false, false,
+               true, false, false,
+               false, false, true,
+               false, false, false]
+# Thiết lập quyền sử dụng các tham số dữ liệu, cần dùng cái nào thì set true cái đó.
+odom0_queue_size: 1
+# Số lần filter odom. Nếu không muốn bỏ lỡ bất kỳ dữ liệu nào (ngay cả khi tần số được đặt thành một giá trị tương đối nhỏ), hãy tăng.
+odom0_differential: false
+# Set thành true nếu muốn sử dụng vận tốc thay vì dùng tọa độ.
+# Khi đó các giá trị trong ma trận liên quan đến tọa độ [X, Y, Z, roll, pitch, yaw] đều được cho bằng 0.
+odom0_relative: true
+# Khi bắt đầu chạy node, nếu tham số đầu tiên từ dữ liệu chính xác, thì phép đo đầu tiên được coi là "điểm không" cho tất cả phép đo về sau.
+# Set thành true nếu muốn đặt cảm biến reset dữ liệu về 0.
+odom0_nodelay: false
+# Thi thoảng dữ liệu có thể bị sai lệch khi filter với tần suất cao. Đây là hậu quả theo thuật toán Nagle. Set False sẽ vô hiệu hóa thuật toán Nagle.
+
+# The pose0 Configuration:
+# pose0: /pose
+# pose0_config: [true,  true,  false,
+#                false, false, false,
+#                false, false, false,và
+#                false, false, false,
+#                false, false, false]
+# pose0_differential: true
+# pose0_relative: false
+# pose0_queue_size: 5
+# pose0_rejection_threshold: 2
+# pose0_nodelay: false
+
+# The twist0 Configuration:
+# twist0: /twist
+# twist0_config: [false, false, false,
+#                 false, false, false,
+#                 true,  true,  false,
+#                 false, false, true,
+#                 false, false, false]
+# twist0_queue_size: 3
+# twist0_rejection_threshold: 2
+# twist0_nodelay: falseThe alpha and kappa variables
+
+# The imu0 Configuration:
+# imu0: /imu
+# imu0_config: [false, false, false,
+#               false,  false,  false,
+#               false, false, false,
+#               false,  false,  true,
+#               false,  false,  false]
+# imu0_nodelay: false
+# imu0_differential: true
+# imu0_relative: true
+# imu0_queue_size: 5
+
+# The Control Configuration:
+use_control: true
+# Do thuật toán EKF và UKF cho ra vận tốc sai lệch dẫn đến Robot đi không đều. Nếu cần pub dữ liệu vận tốc vào robot, set thành true.
+stamped_control: false
+# Nếu dữ liệu vận tốc truyền vào geometry_msgsThe alpha and kappa variables/Twist hoặc geometry_msgs/TwistStamped, set thành false.
+control_timeout: 0.2
+# Thời gian delay cho control.
+control_config: [true, false, false, false, false, true]
+# Cần sử dụng dữ liệu nào, set true dữ liệu đó. Theo thứ tự: vx, vy, vz, vroll, vpitch, vyaw.
+acceleration_limits: [1.3, 0.0, 0.0, 0.0, 0.0, 3.4]
+# Giới hạn gia tốc, set cho phù hợp với động cơ Robot.
+deceleration_limits: [1.3, 0.0, 0.0, 0.0, 0.0, 4.5]
+# Giới hạn giảm tốc, set cho phù hợp với động cơ Robot.
+acceleration_gains: [0.8, 0.0, 0.0, 0.0, 0.0, 0.9]
+# Nếu robot không thể ngay lập tức đạt đến giới hạn tăng tốc set ở trên, đặt gia tốc giới hạn để gia tốc Robot tăng dần đều.
+deceleration_gains: [1.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+# Nếu robot không thể ngay lập tức đạt đến giới hạn giảm tốc set ở trên, đặt gia tốc giới hạn để gia tốc Robot giảm dần đều.
+
+process_noise_covariance: [0.05, 0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                           0,    0.05, 0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                           0,    0,    0.06, 0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                           0,    0,    0,    0.03, 0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                           0,    0,    0,    0,    0.03, 0,    0,     0,     0,    0,    0,    0,    0,    0,    0,
+                           0,    0,    0,    0,    0,    0.06, 0,     0,     0,    0,    0,    0,    0,    0,    0,
+                           0,    0,    0,    0,    0,    0,    0.025, 0,     0,    0,    0,    0,    0,    0,    0,
+                           0,    0,    0,    0,    0,    0,    0,     0.025, 0,    0,    0,    0,    0,    0,    0,
+                           0,    0,    0,    0,    0,    0,    0,     0,     0.04, 0,    0,    0,    0,    0,    0,
+                           0,    0,    0,    0,    0,    0,    0,     0,     0,    0.01, 0,    0,    0,    0,    0,
+                           0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0.01, 0,    0,    0,    0,
+                           0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0.02, 0,    0,    0,
+                           0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0.01, 0,    0,
+                           0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0.01, 0,
+                           0,    0,    0,    0,    0,    0,    0,     0,     0,    0,    0,    0,    0,    0,    0.015]
+# Được sử dụng để cải thiện kết quả do bộ lọc tạo ra.
+# Các giá trị trên đường chéo là phương sai của vectơ trạng thái, bao gồm tọa độ, sau đó là vận tốc và gia tốc tuyến tính.
+# Không bắt buộc phải đặt, nhưng nếu đặt đúng tình huống sẽ cho ra kết quả tối ưu.
+
+initial_estimate_covariance: [1e-9, 0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    1e-9, 0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    1e-9, 0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    1e-9, 0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    1e-9, 0,    0,    0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    1e-9, 0,    0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    1e-9, 0,    0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    1e-9, 0,    0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    1e-9, 0,     0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    0,    1e-9,  0,     0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     1e-9,  0,     0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     1e-9,  0,    0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     1e-9, 0,    0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    1e-9, 0,
+                              0,    0,    0,    0,    0,    0,    0,    0,    0,    0,     0,     0,     0,    0,    1e-9]
+# Ma trận cấp sai số cho dữ liệu. Cho phép đặt các giá trị trong ma trận, nếu càng lớn thì kết quả thu được sẽ nhanh hơn.
+# Cẩn thận không sử dụng sai số lớn với biến không đo trực tiếp.
+
+# [ADVANCED, UKF ONLY] Alpha, Kappa and Beta:
+# Điều khiển Sigma(Chưa rõ)
+# alpha: 0.001
+# kappa: 0
+# beta: 2
