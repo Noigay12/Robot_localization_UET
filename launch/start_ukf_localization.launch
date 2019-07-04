@@ -1,0 +1,6 @@
+<launch> 
+    <!-- Run the EKF Localization node -->
+    <node pkg="robot_localization" type="ukf_localization_node" name="ukf_localization">
+        <rosparam command="load" file="$(find turtlebot3_localization)/config/ukf_localization.yaml"/>
+    </node>
+</launch>
