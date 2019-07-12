@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import rospy
+import random
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import PoseWithCovarianceStamped, Twist
 
@@ -12,7 +13,7 @@ class PubCmd():
         self.pub_msg = Twist()
         self.ctrl_c = False
         rospy.on_shutdown(self.shutdownhook)
-        self.rate = rospy.Rate(50)
+        self.rate = rospy.Rate(10)
     
     def shutdownhook(self):
         # works better than the rospy.is_shut_down()
@@ -25,21 +26,25 @@ class PubCmd():
     def odom_callback(self, msg):
         self.odom_msg = msg
     
-    def pub_first(self):
-        self.pub_msg.linear.x = 0.2
-        self.pub_msg.linear.y = 0.0
-        self.pub_msg.angular.z = 0.0
+    # def pub_first(self):
+    #     rand_float = random.uniform(-0.5,0.5)
+    #     self.pub_msg.linear.x = 0.5
+    #     self.pub_msg.linear.y = 0.0
+    #     self.pub_msg.angular.z = 0.5
 
     def pub_prepare(self):
-        self.pub_msg.linear.x = 0.2
-        self.pub_msg.linear.y = 0.0
-        self.pub_msg.angular.z = -self.odom_msg.twist.twist.angular.z
+        self.pub_msg.linear.x = self.odom_msg.twist.twist.linear.x
+        self.pub_msg.linear.y = self.odom_msg.twist.twist.linear.y
+        self.pub_msg.linear.z = self.odom_msg.twist.twist.linear.z
+        self.pub_msg.angular.x = self.odom_msg.twist.twist.angular.x
+        self.pub_msg.angular.y = self.odom_msg.twist.twist.angular.y
+        self.pub_msg.angular.z = self.odom_msg.twist.twist.angular.z
         
     def publish_cmd(self):
         # loop to publish the odometry values
         while not rospy.is_shutdown():
-            self.pub_first()
-            self.cmd_publisher.publish(self.pub_msg)
+            # self.pub_first()
+            # self.cmd_publisher.publish(self.pub_msg)
             self.pub_prepare()
             self.cmd_publisher.publish(self.pub_msg)
             self.rate.sleep()
